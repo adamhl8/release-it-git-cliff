@@ -1,6 +1,6 @@
 import type { IncrementOptions } from "release-it"
 import { Plugin } from "release-it"
-import semver from "semver"
+import { isLessThan, isPrerelease } from "verkit"
 
 const SEMVER_SUFFIX = /\d+\.\d+\.\d+(?:-[\dA-Za-z.\-]+)?(?:\+[\dA-Za-z.\-]+)?$/v
 
@@ -38,7 +38,7 @@ class GitCliff extends Plugin {
     if (increment) return
 
     // git-cliff only bumps the prerelease number from a prerelease, even for breaking changes.
-    if (semver.prerelease(latestVersion)) {
+    if (isPrerelease(latestVersion)) {
       throw new Error(
         `The latest version ${latestVersion} is a prerelease, and git-cliff can only bump its prerelease number. Pass an increment to release a stable version (e.g. "release-it -i minor").`,
       )
@@ -57,7 +57,7 @@ class GitCliff extends Plugin {
       )
     }
     // git-cliff bumps from the latest tag, and release-it's `latestVersion` comes from package.json when it has one.
-    if (semver.lt(version, latestVersion)) {
+    if (isLessThan(version, latestVersion)) {
       throw new Error(
         `git-cliff picked ${version}, which is lower than the current version ${latestVersion}. git-cliff bumps from the latest git tag, so tag the commit that released ${latestVersion}.`,
       )
