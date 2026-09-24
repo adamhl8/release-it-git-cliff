@@ -1,6 +1,6 @@
 {
   "name": "release-it-git-cliff",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A git-cliff plugin for release-it",
   "keywords": [
     "git-cliff",
