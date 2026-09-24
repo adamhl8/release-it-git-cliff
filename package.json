@@ -5,7 +5,8 @@
   "keywords": [
     "git-cliff",
     "plugin",
-    "release-it"
+    "release-it",
+    "release-it-plugin"
   ],
   "homepage": "https://github.com/adamhl8/release-it-git-cliff",
   "bugs": {
@@ -30,19 +31,25 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
   },
   "scripts": {
     "prepare": "just prepare"
   },
+  "dependencies": {
+    "semver": "^7.8.5"
+  },
   "devDependencies": {
-    "@adamhl8/configs": "^2.4.1",
+    "@adamhl8/configs": "^2.5.0",
     "@arethetypeswrong/core": "^0.18.5",
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
     "@types/bun": "^1.4.2",
+    "@types/semver": "^7.8.0",
+    "es-toolkit": "^1.52.0",
+    "execa": "^10.0.1",
+    "git-cliff": "^2.14.2",
     "knip": "^6.38.0",
     "markdown-toc": "^1.2.0",
     "oxfmt": "^0.70.0",
