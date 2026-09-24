@@ -31,9 +31,15 @@ export const packPlugin = async () => {
   tarball = stdout
 }
 
+// Drop the `node` shim that `bun run` puts on PATH (e.g. when release-it runs these tests from a hook).
+// Keep release-it on real node because bun's `parseArgs` rejects `--no-increment`.
+const pathDirs = (process.env["PATH"] ?? "")
+  .split(path.delimiter)
+  .filter((dir) => !path.basename(dir).startsWith("bun-node-"))
+
 export const env = {
   // Put this repo's bins first so release-it runs the git-cliff devDependency.
-  PATH: [path.join(ROOT, "node_modules/.bin"), process.env["PATH"]].join(path.delimiter),
+  PATH: [path.join(ROOT, "node_modules/.bin"), ...pathDirs].join(path.delimiter),
   // Pass `HOME` so bun and npm use their normal caches.
   HOME: process.env["HOME"],
   GIT_CONFIG_GLOBAL: "/dev/null",
