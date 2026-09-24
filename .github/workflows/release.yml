@@ -8,8 +8,4 @@ jobs:
     permissions:
       contents: write
     uses: adamhl8/configs/.github/workflows/release.yml@main
-    with:
-      # This project uses `@adamhl8/configs`, which itself uses this project. During release, release-it tries to load this plugin from node_modules but fails because the plugin would need to install itself.
-      # To fix this, we build the plugin and install it into its own node_modules (see package.json) so release-it can find it.
-      before-release: bun tsdown
     secrets: inherit
