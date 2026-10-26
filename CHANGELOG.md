@@ -1,3 +1,9 @@
+## [0.2.1](https://github.com/adamhl8/release-it-git-cliff/compare/v0.2.0..v0.2.1) - 2026-10-26
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies ([6adf1a7](https://github.com/adamhl8/release-it-git-cliff/commit/6adf1a7e1c365b5bc97de66fb25dfa212844b7bc) by @adamhl8)
+
 ## [0.2.0](https://github.com/adamhl8/release-it-git-cliff/compare/v0.1.0..v0.2.0) - 2026-09-24
 
 ### ✨ Improvements
