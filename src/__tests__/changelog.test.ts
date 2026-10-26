@@ -1,7 +1,10 @@
 import { expect, it, setDefaultTimeout } from "bun:test"
 import path from "node:path"
 
-import { createRepo, makeTempDir } from "#__tests__/utils.ts"
+import { makeTempDir } from "@adamhl8/configs/test"
+import bun from "bun"
+
+import { createRepo } from "#__tests__/utils.ts"
 
 setDefaultTimeout(30_000)
 
@@ -48,7 +51,7 @@ it("--changelog with --no-increment prints the latest release", async () => {
 
 it("--no-increment sets the release notes to the latest release", async () => {
   // Write the notes outside the repo because an untracked file would fail release-it's clean working dir check.
-  const notesPath = path.join(await makeTempDir(), "notes.md")
+  const notesPath = path.join(await makeTempDir("release-it-git-cliff-"), "notes.md")
   const { run } = await createRepo({
     tagPrefix: "v",
     releaseItOptions: { hooks: { "after:release": `echo "\${changelog}" > ${notesPath}` } },
@@ -58,7 +61,7 @@ it("--no-increment sets the release notes to the latest release", async () => {
 
   await run`release-it --ci --no-increment`
 
-  const notes = await Bun.file(notesPath).text()
+  const notes = await bun.file(notesPath).text()
   expect(notes).toContain("## v1.1.0")
   expect(notes).toContain("- add a feature")
 })
@@ -82,7 +85,7 @@ it("--no-increment doesn't rewrite the output file", async () => {
 
   await run`release-it --ci --no-increment`
 
-  const changelog = await Bun.file(path.join(dir, "CHANGELOG.md")).text()
+  const changelog = await bun.file(path.join(dir, "CHANGELOG.md")).text()
   expect(changelog.match(/## v1\.1\.0/gv)).toHaveLength(1)
 })
 
@@ -106,8 +109,8 @@ it("--dry-run doesn't write the output file", async () => {
   const { dir, run } = await createRepo({ releaseItOptions: writeOutput })
   await run`git commit --allow-empty -m ${"feat: add a feature"}`
 
-  const { all } = await run`release-it --ci --dry-run`
+  const { stdout } = await run`release-it --ci --dry-run`
 
-  expect(all).toContain("1.0.0...1.1.0")
-  expect(await Bun.file(path.join(dir, "CHANGELOG.md")).exists()).toBe(false)
+  expect(stdout).toContain("1.0.0...1.1.0")
+  expect(await bun.file(path.join(dir, "CHANGELOG.md")).exists()).toBe(false)
 })

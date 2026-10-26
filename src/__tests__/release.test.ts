@@ -1,6 +1,8 @@
 import { expect, it, setDefaultTimeout } from "bun:test"
 import path from "node:path"
 
+import bun from "bun"
+
 import { createRepo } from "#__tests__/utils.ts"
 
 setDefaultTimeout(30_000)
@@ -11,7 +13,7 @@ it("bumps package.json to git-cliff's bumped version", async () => {
 
   await run`release-it --ci`
 
-  const packageJson = (await Bun.file(path.join(dir, "package.json")).json()) as unknown
+  const packageJson = (await bun.file(path.join(dir, "package.json")).json()) as unknown
   expect(packageJson).toMatchObject({ version: "1.1.0" })
 })
 
@@ -23,7 +25,7 @@ it("keeps a v prefix on the tag", async () => {
 
   const { stdout: tag } = await run`git tag --points-at HEAD`
   expect(tag).toBe("v1.1.0")
-  const packageJson = (await Bun.file(path.join(dir, "package.json")).json()) as unknown
+  const packageJson = (await bun.file(path.join(dir, "package.json")).json()) as unknown
   expect(packageJson).toMatchObject({ version: "1.1.0" })
 })
 
@@ -39,6 +41,6 @@ it("uses git.tagName for other prefixes", async () => {
 
   const { stdout: tag } = await run`git tag --points-at HEAD`
   expect(tag).toBe("release-1.1.0")
-  const packageJson = (await Bun.file(path.join(dir, "package.json")).json()) as unknown
+  const packageJson = (await bun.file(path.join(dir, "package.json")).json()) as unknown
   expect(packageJson).toMatchObject({ version: "1.1.0" })
 })

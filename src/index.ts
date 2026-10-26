@@ -2,7 +2,7 @@ import type { IncrementOptions } from "release-it"
 import { Plugin } from "release-it"
 import { isLessThan, isPrerelease } from "verkit"
 
-const SEMVER_SUFFIX = /\d+\.\d+\.\d+(?:-[\dA-Za-z.\-]+)?(?:\+[\dA-Za-z.\-]+)?$/v
+const SEMVER_SUFFIX = /\d+\.\d+\.\d+(?:-[\d\-.A-Za-z]+)?(?:\+[\d\-.A-Za-z]+)?$/v
 
 interface GitCliffOptions {
   /** A path or built-in config name which is passed to git-cliff's `--config`. Omit it to let git-cliff find the config. */

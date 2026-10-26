@@ -1,17 +1,16 @@
 import { expect, it, setDefaultTimeout } from "bun:test"
-import fs from "node:fs/promises"
 import path from "node:path"
 
-import { createRepo, makeTempDir } from "#__tests__/utils.ts"
+import { makeTempDir } from "@adamhl8/configs/test"
+import bun from "bun"
+
+import { createRepo } from "#__tests__/utils.ts"
 
 setDefaultTimeout(30_000)
 
 it("uses a config file from a path", async () => {
-  const configPath = path.join(await makeTempDir(), "cliff.toml")
-  await fs.writeFile(
-    configPath,
-    '[git]\nconventional_commits = true\n\n[bump]\ncustom_major_increment_regex = "docs"\n',
-  )
+  const configPath = path.join(await makeTempDir("release-it-git-cliff-"), "cliff.toml")
+  await bun.write(configPath, '[git]\nconventional_commits = true\n\n[bump]\ncustom_major_increment_regex = "docs"\n')
   const { run } = await createRepo({
     releaseItOptions: { plugins: { "release-it-git-cliff": { config: configPath } } },
   })

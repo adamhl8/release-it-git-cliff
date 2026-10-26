@@ -11,8 +11,8 @@ declare module "release-it" {
 
   interface Config {
     readonly isIncrement: boolean
-    getContext: ((path: "version") => Pick<IncrementOptions, "increment" | "isPreRelease">) &
-      ((path: "tagName") => string | undefined)
+    getContext: ((path: "version") => Pick<IncrementOptions, "increment" | "isPreRelease">)
+      & ((path: "tagName") => string | undefined)
     setContext: (context: Record<string, unknown>) => void
   }
 
